@@ -1,7 +1,17 @@
 (ns advent-of-code.core
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.string :as str]
+            [advent-of-code.2021]))
+
+(def project-namespaces (->> (all-ns)
+                             (filter #(re-matches #"advent-of-code\.....\.day.*" (str %)))
+                             (sort-by str)))
+
+(defn ^:private execute-exercises [executee-ns]
+  ((ns-resolve executee-ns 'run)))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "TODO call and execute sub-namespaces."
   [& args]
-  (println "Hello, World!"))
+  (doall (->>  project-namespaces
+               (map execute-exercises))))
