@@ -1,14 +1,17 @@
-(ns advent-of-code.2021.day01
-  (:require [clojure.string :as str]))
+(ns advent-of-code.2021.day01-sonarsweep
+  (:require [clojure.string :as str]
+            [clojure.test :as t]))
 
-;;;; 1a - how many increasing measurements are there?
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 1a - how many increasing measurements are there?
 
 ;;parse input int an array of integers
-(defn ^:private parse-measurements []
-  (->>(.getPath (clojure.java.io/resource "2021/day01.txt"))
-      slurp
-      (#(str/split % #"\n"))
-      (map #(Integer/parseInt %))))
+(defn ^:private parse-input
+  ([input]
+   (->> input
+        (#(str/split % #"\n"))
+        (map #(Integer/parseInt %))))
+  ([]
+   (parse-input (slurp (.getPath (clojure.java.io/resource "2021/day01.txt"))))))
 
 ;; count how many measurements of a list are larger than the one before
 (defn ^:private count-increases [number-list]
@@ -16,29 +19,19 @@
        (filter true?)
        count))
 
-(defn day1a []
-  (println "2021/01a - there are"
-         (count-increases (parse-measurements))
-         "increasing measurements."))
-;; result 1722
-
-;;; 1b - how many increasing measures are there when looking at a sliding window of size three?
+(defn day1a [input]
+  (count-increases input))
+(parse-input)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 1b - how many increasing measures are there when looking at a sliding window of size three?
 
 ;; create sliding windows of size three of the measurements
 (defn make-sliding-measure-of-three [number-list] (map + number-list (rest number-list) (rest (rest number-list))))
 
 ;; now count all increases there
-(defn day1b []
-  (println "2021/01b - there are"
-         (-> (parse-measurements) make-sliding-measure-of-three count-increases)
-         "increasing measurements when considering a sliding window of size three."))
-;; result 1748
+(defn day1b [input]
+  (-> input make-sliding-measure-of-three count-increases))
 
-(defn run []
-  (day1a)
-  (day1b))
-
-;; Problem statement
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Problem statement
 ;; --- Day 1: Sonar Sweep ---
 ;;
 ;; You're minding your own business on a ship at sea when the overboard alarm goes off! You rush to see if you can help.
@@ -133,3 +126,12 @@
 ;; In this example, there are 5 sums that are larger than the previous sum.
 ;;
 ;; Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?
+
+;;;;;;;;;;;;;;;;; tests
+(t/deftest day1a-test
+  (t/is
+   (= 1581 (day1a (parse-input)))))
+
+(t/deftest day1b-test
+  (t/is
+   (= 1618 (day1b (parse-input)))))

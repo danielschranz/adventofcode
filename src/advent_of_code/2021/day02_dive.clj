@@ -1,52 +1,43 @@
-(ns advent-of-code.2021.day02
-  (:require [clojure.string :as str]))
+(ns advent-of-code.2021.day02-dive
+  (:require [clojure.string :as str]
+            [clojure.test :as t]))
 
-(defn ^:private parse-instructions []
-  (->>(.getPath (clojure.java.io/resource "2021/day02.txt"))
-      slurp
-      (#(str/split % #"\n"))
-      (map #(str/split % #" "))
-      (map (fn [[instruction distance]] (vector instruction (Integer/parseInt distance))))))
+(defn ^:private parse-input
+  ([input]
+   (->> input
+        (#(str/split % #"\n"))
+        (map #(str/split % #" "))
+        (map (fn [[instruction distance]] (vector instruction (Integer/parseInt distance))))))
+  ([]
+   (parse-input (slurp (.getPath (clojure.java.io/resource "2021/day02.txt"))))))
 
-
-;;; 1a - final depth multiplied by final forward value
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 1a - final depth multiplied by final forward value
 (defn ^:private sum-single-instruction
   "Calculates the total distance for a list of instructions. [\"sdf\" 1] [\"sdf\" 18]]) => 19"
   [instructions]
   (apply + (map last instructions)))
 
-
-(defn day2a []
-  (let [grouped-instructions (->> (parse-instructions)
-                                  (group-by first)
-                                  )
+(defn day2a [instructions]
+  (let [grouped-instructions (->> instructions
+                                  (group-by first))
         up-value (sum-single-instruction (grouped-instructions "up"))
         down-value (sum-single-instruction (grouped-instructions "down"))
-        forward-value (sum-single-instruction (grouped-instructions "forward"))
-        ]
-    (println "2021/02a - up:" up-value "down:" down-value "forward:" forward-value " => result:" (* (- down-value up-value) forward-value))))
-;; result 1714680
+        forward-value (sum-single-instruction (grouped-instructions "forward"))]
+    (* (- down-value up-value) forward-value)))
 
-;;; 2b - different way to interpret the instructions; see below
-(defn day2b []
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 2b - different way to interpret the instructions; see below
+(defn day2b
+  [input]
   (let [executed-instructions (reduce (fn [{aim :aim depth :depth forward :forward} [command distance]]
-                         (case command
-                           "up" {:aim (- aim distance) :depth depth :forward forward}
-                           "down" {:aim (+ aim distance) :depth depth :forward forward}
-                           "forward" {:aim aim :depth (+ depth (* aim distance)) :forward (+ forward distance)}
-                           ))
-                       {:aim 0 :depth 0 :forward 0}
-                       (parse-instructions))]
-    (println "2021/02b - depth:" (executed-instructions :depth) "forward:" (executed-instructions :forward) "result:" (* (executed-instructions :depth) (executed-instructions :forward)))))
+                                        (case command
+                                          "up" {:aim (- aim distance) :depth depth :forward forward}
+                                          "down" {:aim (+ aim distance) :depth depth :forward forward}
+                                          "forward" {:aim aim :depth (+ depth (* aim distance)) :forward (+ forward distance)}))
+                                      {:aim 0 :depth 0 :forward 0}
+                                      input)]
+    (* (executed-instructions :depth) (executed-instructions :forward))))
 
-;; result 1963088820
-
-
-(defn run []
-  (day2a)
-  (day2b))
-
-;; Problem statement
+;;;;;;;;;;;;;;;;;;;;;;;;;;;; Problem statement
 ;; --- Day 2: Dive! ---
 ;;
 ;; Now, you need to figure out how to pilot this thing.
@@ -113,3 +104,12 @@
 ;;
 ;; Using this new interpretation of the commands, calculate the horizontal position and depth you would have after following the planned course.
 ;; What do you get if you multiply your final horizontal position by your final depth?
+
+;;;;;;;;;;;;;;;;;;;;;;;;; Tests
+(t/deftest test-day2a
+  (t/is
+   (= 2027977 (day2a (parse-input)))))
+
+(t/deftest test-day2b
+  (t/is
+   (= 1903644897 (day2b (parse-input)))))
