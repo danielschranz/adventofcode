@@ -7,4 +7,7 @@
   :main ^:skip-aot advent-of-code.core
   :test-paths ["src"]
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}
+             :dev {:dependencies [[lambdaisland/kaocha "1.71.1119"]]}}
+  :aliases {"kaocha" ["run" "-m" "kaocha.runner"]
+            "test"  ["do" "kaocha"]})
