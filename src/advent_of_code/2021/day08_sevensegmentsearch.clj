@@ -9,14 +9,24 @@
         (map #(str/split % #" | "))       ;; split into patterns and output
         ))
   ([]
-   (parse-input (slurp (.getPath (clojure.java.io/resource "2021/day08.txt"))))))
-
-(parse) ;; TODO
+   (parse-input (slurp (clojure.java.io/resource "2021/day08.txt")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 1a - final depth multiplied by final forward value
 
 (defn day8a [instructions]
   )
+
+(defn day8b [instructions]
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;; Tests
+(t/deftest ^:kaocha/pending test-day8a
+  (t/is
+   (= 2027977 (day8a (parse-input)))))
+
+(t/deftest ^:kaocha/pending test-day8b
+  (t/is
+   (= 1903644897 (day8b (parse-input)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Problem statement
 ;; --- Day 8: Seven Segment Search ---
@@ -86,12 +96,3 @@
 ;; Because the digits 1, 4, 7, and 8 each use a unique number of segments, you should be able to tell which combinations of signals correspond to those digits. Counting only digits in the output values (the part after | on each line), in the above example, there are 26 instances of digits that use a unique number of segments (highlighted above).
 
 ;; In the output values, how many times do digits 1, 4, 7, or 8 appear?
-
-;;;;;;;;;;;;;;;;;;;;;;;;; Tests
-(t/deftest test-day2a
-  (t/is
-   (= 2027977 (day2a (parse-input)))))
-
-(t/deftest test-day2b
-  (t/is
-   (= 1903644897 (day2b (parse-input)))))

@@ -9,7 +9,7 @@
         (map #(str/split % #" "))
         (map (fn [[instruction distance]] (vector instruction (Integer/parseInt distance))))))
   ([]
-   (parse-input (slurp (.getPath (clojure.java.io/resource "2021/day02.txt"))))))
+   (parse-input (slurp (clojure.java.io/resource "2021/day02.txt")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 1a - final depth multiplied by final forward value
 (defn ^:private sum-single-instruction

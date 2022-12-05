@@ -12,7 +12,7 @@
    (->> input
         (#(str/split % #"\n"))))
   ([]
-   (parse-input (slurp (.getPath (clojure.java.io/resource "2022/day03.txt"))))))
+   (parse-input (slurp (clojure.java.io/resource "2022/day03.txt")))))
 
 (defn prio
   [a-char]

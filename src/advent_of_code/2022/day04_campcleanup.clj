@@ -11,7 +11,7 @@
         (map #(Integer/parseInt %))
         (partition 4)))
   ([]
-   (parse-input (slurp (.getPath (clojure.java.io/resource "2022/day04.txt"))))))
+   (parse-input (slurp (clojure.java.io/resource "2022/day04.txt")))))
 
 (defn day04a
   [input]

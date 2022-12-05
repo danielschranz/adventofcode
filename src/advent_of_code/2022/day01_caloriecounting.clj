@@ -10,7 +10,7 @@
         (remove #(= '("") %))
         (map (fn [elf] (map #(Integer/parseInt %) elf)))))
   ([]
-   (parse-input (slurp (.getPath (clojure.java.io/resource "2022/day01.txt"))))))
+   (parse-input (slurp (clojure.java.io/resource "2022/day01.txt")))))
 
 (defn day01a
   [input]

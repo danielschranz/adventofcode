@@ -11,7 +11,7 @@
         (#(str/split % #"\n"))
         (map #(Integer/parseInt %))))
   ([]
-   (parse-input (slurp (.getPath (clojure.java.io/resource "2021/day01.txt"))))))
+   (parse-input (slurp (clojure.java.io/resource "2021/day01.txt")))))
 
 ;; count how many measurements of a list are larger than the one before
 (defn ^:private count-increases [number-list]
