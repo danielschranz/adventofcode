@@ -54,7 +54,7 @@
                    to-stack (nth store to)
                    crates-to-move (take that-many from-stack)]
                (-> store
-                   (update-in [to] #(concat crates-to-move %))
+                   (update-in [to] #(concat crates-to-move %)) ;; same as in 05a but without reverse
                    (update-in [from] #(drop that-many %)))))
            crates
            movements)

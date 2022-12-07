@@ -20,8 +20,6 @@
   [input]
   (search-unique input 4))
 
-(split-with true? [true true false])
-
 (defn day06b
   [input]
   (search-unique input 14))

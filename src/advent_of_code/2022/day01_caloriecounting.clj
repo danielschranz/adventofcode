@@ -8,7 +8,7 @@
         (#(str/split % #"\n"))
         (partition-by #(= "" %))
         (remove #(= '("") %))
-        (map (fn [elf] (map #(Integer/parseInt %) elf)))))
+        (map (fn [elf] (map bigint elf)))))
   ([]
    (parse-input (slurp (clojure.java.io/resource "2022/day01.txt")))))
 
