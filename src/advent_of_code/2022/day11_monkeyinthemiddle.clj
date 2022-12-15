@@ -87,7 +87,6 @@
 
 (defn do-monkey
   [monkeys index]
-  (println "Monkey " index ": " (count (:items (nth monkeys index))))
   (if (empty? (->> (nth monkeys index) :items))
     monkeys
     (let [{[next-item & remaining-items] :items :keys [operation test true-target false-target] :as current-monkey} (nth monkeys index) ;; TODO
@@ -120,7 +119,7 @@
   (if (nil? (->> (nth monkeys index) :items first))
     monkeys
     (let [{[next-item & remaining-items] :items :keys [operation test true-target false-target] :as current-monkey} (nth monkeys index)
-          updated-next-item (bigint (operation next-item))
+          updated-next-item (bigint (mod (operation next-item) (* 17 3 19 7 2 5 11 13)))
           target-index (if (test updated-next-item)
                          true-target
                          false-target)
@@ -137,17 +136,16 @@
 
 (defn day11b
   [input]
-  (->> (reduce (fn [monkeys round] #_(println round) (do-round-partb monkeys)) input (range 10000)) ;; TODO hmmm.. this takes a while
+  (->> (reduce (fn [monkeys _round] (do-round-partb monkeys)) input (range 10000))
        (map :count)
-;       sort
-;       (take-last 2)
-;       (reduce *)
-       ))
+       sort
+       (take-last 2)
+       (reduce *)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Tests
 (t/deftest day11a-test
   (t/is (= 99852 (day11a manual-input))))
 
 (t/deftest ^:kaocha/pending day11b-test
-  (t/is (= true
-           (day11b test-data))))
+  (t/is (= 25935263541
+           (day11b manual-input))))
