@@ -43,7 +43,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Tests
 (t/deftest day10a-test
-  (t/is (= 1693 (day10a (parse-input)))))
+  (t/is (=  14520 (day10a (parse-input)))))
 
 (t/deftest  day10b-test
   (t/is (= '("###..####.###...##..####.####...##.###.."

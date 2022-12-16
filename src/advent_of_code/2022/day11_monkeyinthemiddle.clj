@@ -103,12 +103,11 @@
 
 (defn do-round
   [monkeys]
-  (println "-----")
   (reduce do-monkey monkeys (range (count monkeys))))
 
 (defn day11a
   [input]
-  (->> (reduce (fn [monkeys _count] (do-round monkeys)) input (range 100))
+  (->> (reduce (fn [monkeys _count] (do-round monkeys)) input (range 20))
        (map :count)
        sort
        (take-last 2)
